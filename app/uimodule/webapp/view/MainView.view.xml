@@ -1,0 +1,63 @@
+ <mvc:View controllerName="fiori_cap.controller.MainView"
+  displayBlock="true"
+  xmlns="sap.m"
+  xmlns:mvc="sap.ui.core.mvc">
+  <App id="idAppControl" >
+    <pages>
+      <Page title="{i18n>title}">
+        <content>
+          
+          <HBox>
+              <Image src="{ value: 'fiori_cap/resources/img/favicon.ico',formatter: 'sap.ui.require.toUrl'}"></Image>
+              <Button text="Consultar Books (Model)" press="onBooks" ></Button>
+              <Button text="Consultar Books (Ajax)" press="onBooks2" ></Button>
+          </HBox>
+          
+          <HBox justifyContent="Center">
+            <VBox width="80%">
+                <Table items="{ path: 'viewModel>/books' }">
+                    <columns>
+                        <Column>
+                            <header>
+                                <VBox>
+                                    <Text text="Id" />
+                                </VBox>
+                            </header>
+                        </Column>
+                        <Column>
+                            <header>
+                                <VBox>
+                                    <Text text="Title" />
+                                </VBox>
+                            </header>
+                        </Column>
+                        <Column>
+                            <header>
+                                <VBox>
+                                    <Text text="Stock" />
+                                </VBox>
+                            </header>
+                        </Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem>
+                            <cells>
+                                <Text text="{viewModel>ID}" />
+                            </cells>
+                            <cells>
+                                <Text text="{viewModel>title}" />
+                            </cells>
+                            <cells>
+                                <Text text="{viewModel>stock}" />
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </VBox>
+        </HBox>
+
+        </content>
+      </Page>
+    </pages>
+  </App>
+</mvc:View>

@@ -1,0 +1,19 @@
+{
+  "welcomeFile": "index.html",
+  "authenticationMethod": "route",
+  "routes": [
+    {
+      "source": "^/api/(.*)$",
+      "target": "/v2/catalog/$1",
+      "authenticationType": "xsuaa",
+      "destination": "cds_api"
+    },
+    {
+      "source": "^/(.*)$",
+      "target": "$1",
+      "authenticationType": "xsuaa",
+      "localDir": "uimodule/webapp",
+      "cacheControl": "no-cache"
+    }
+  ]
+}

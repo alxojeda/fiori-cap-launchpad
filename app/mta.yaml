@@ -1,0 +1,86 @@
+ID: fiori_cap_app
+_schema-version: 3.2.0
+version: 0.0.1
+
+modules:
+  - name: webapp_deployer
+    type: com.sap.application.content
+    path: deployer
+    requires:
+      - name: fiori_cap_html5_repo_host
+        parameters:
+          content-target: true
+    build-parameters:
+      build-result: resources
+      requires:
+        - name: uimodule
+          artifacts:
+            - uimodule.zip
+          target-path: resources/
+  
+  - name: fiori_cap_destination-content
+    type: com.sap.application.content
+    build-parameters:
+      no-source: true
+    requires:
+      - name: fiori_cap-uaa
+        parameters:
+          service-key:
+            name: fiori_cap-uaa-key
+      - name: fiori_cap_html5_repo_host
+        parameters:
+          service-key:
+            name: fiori_cap_html5_repo_host-key
+      - name: fiori_cap_destination
+        parameters:
+          content-target: true
+    parameters:
+      content:
+        instance:
+          existing_destinations_policy: update
+          destinations:
+            - Name: fiori_cap_html5_repo_host
+              ServiceInstanceName: fiori_cap_html5_repo_host
+              ServiceKeyName: fiori_cap_html5_repo_host-key
+              sap.cloud.service: fiori_cap
+            - Name: fiori_cap-uaa
+              Authentication: OAuth2UserTokenExchange
+              ServiceInstanceName: fiori_cap-xsuaa
+              ServiceKeyName: fiori_cap-uaa-key
+              sap.cloud.service: fiori_cap
+  
+  - name: uimodule
+    type: html5
+    path: .
+    build-parameters:
+      build-result: uimodule/dist
+      builder: custom
+      commands:
+        - npm run build:uimodule
+      supported-platforms: []
+
+resources:
+  - name: fiori_cap_destination
+    type: org.cloudfoundry.managed-service
+    parameters:
+      config:
+        HTML5Runtime_enabled: true
+      service-plan: lite
+      service: destination
+
+  - name: fiori_cap_html5_repo_host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service-plan: app-host
+      service: html5-apps-repo
+      config:
+        sizeLimit: 2
+  
+  - name: fiori_cap-uaa
+    type: org.cloudfoundry.existing-service
+    parameters:
+        service-name: fiori_cap-xsuaa
+
+parameters:
+  deploy_mode: html5-repo # Linea relevante para poder consumir servicios a traves del router y destinations
+  enable-parallel-deployments: true

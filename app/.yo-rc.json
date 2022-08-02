@@ -1,0 +1,16 @@
+{
+  "generator-easy-ui5": {
+    "projectname": "fioricds",
+    "namespace": "cmg",
+    "platform": "SAP Launchpad service",
+    "viewtype": "XML",
+    "viewname": "MainView",
+    "ui5libs": "Content delivery network (SAPUI5)",
+    "newdir": true,
+    "namespaceURI": "cmg",
+    "uimodules": [
+      "uimodule"
+    ],
+    "setupCompleted": true
+  }
+}

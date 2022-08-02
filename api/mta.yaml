@@ -1,0 +1,52 @@
+## Generated mta.yaml based on template version 0.4.0
+## appName = api
+## language=nodejs; multitenant=false
+## approuter=
+_schema-version: '3.1'
+ID: fiori_cap_api
+version: 1.0.0
+description: "A simple CAP project."
+parameters:
+  enable-parallel-deployments: true
+   
+build-parameters:
+  before-all:
+   - builder: custom
+     commands:
+      - npm install --production
+      - npx -p @sap/cds-dk cds build --production
+
+modules:
+ - name: fiori_cap_api
+   type: nodejs
+   path: gen/srv
+   parameters:
+      disk-quota: 512M
+      memory: 256M
+   requires:
+    - name: fiori_cap-uaa
+    - name: fiori_cap-db
+
+ - name: fiori_cap_api-deployer
+   type: hdb
+   path: gen/db  
+   parameters:
+     buildpack: nodejs_buildpack
+   requires:
+    - name: fiori_cap-db
+
+resources:
+ - name: fiori_cap-db
+   type: com.sap.xs.hdi-container
+   parameters:
+     service: hana
+     service-plan: hdi-shared
+   properties:
+     hdi-service-name: ${service-name}
+
+ - name: fiori_cap-uaa
+   type: org.cloudfoundry.existing-service
+   parameters:
+    service-name: fiori_cap-xsuaa
+
+
