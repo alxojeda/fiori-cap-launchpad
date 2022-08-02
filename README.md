@@ -1,7 +1,7 @@
 ## App Fiori con backend CAP
 
 ### Descripción
-Aplicación fiori básica para desplegar en servicio Fiori Launchpad de BTP con backend CAP  
+Aplicación fiori para desplegar en servicio Fiori Launchpad de BTP con backend CAP  
 La aplicación frontend se comunica con el backend a través de un destination, el backend solo puede ser consumido si el usuario ya inicio sesión, por lo que ambas usan una instancia del servicio xsuaa.  
 La sesión es controlada por el servicio Launchpad
 
